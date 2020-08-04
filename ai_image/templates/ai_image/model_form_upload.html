@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI image</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'ai_image/css/bootstrap4.5.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'ai_image/image/terada_icon.png'%}">
+
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h1>Registration</h1>
+        </div>
+        <form method="post" enctype="multipart/form-data" action="{% url 'ai_image:post'%}">
+            {% csrf_token%}
+            <div class="form-group">
+                <label for="description">description</label>
+                {{ form.description }}
+            </div>
+            <div class="form-group">
+                <label for="image">image</label>
+                {{ form.photo }}
+            </div>
+
+            <button class="btn btn-primary" type="submit">Upload</button>
+            <button class="btn btn-secondary" type="reset">Clear</button>
+        </form>
+        <div class="row mt-3">
+            <h2>Content</h2>
+        </div>
+        <table class="table">
+            {% for item in items %}
+            <tr>
+                <td>{{item.description}}</td>
+                <td><img src="{{ item.photo.url }}"></td>
+                <td>{{item.uploaded_at}}</td>
+            </tr>
+            {% endfor %}    
+        </table>
+    </div>
+
+    <script src="{% static 'ai_image/js/jquery.js' %}"></script>
+    <script src="{% static 'ai_image/js/popper.js' %}"></script>
+    <script src="{% static 'ai_image/js/bootstrap.js' %}"></script>
+</body>
+</html>
