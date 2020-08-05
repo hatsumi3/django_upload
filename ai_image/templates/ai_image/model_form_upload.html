@@ -14,7 +14,7 @@
         <div class="row">
             <h1>Registration</h1>
         </div>
-        <form method="post" enctype="multipart/form-data" action="{% url 'ai_image:post'%}">
+        <form method="post" enctype="multipart/form-data" onsubmit="displaySpinner()" action="{% url 'ai_image:post'%}">
             {% csrf_token%}
             <div class="form-group">
                 <label for="description">description</label>
@@ -28,6 +28,13 @@
             <button class="btn btn-primary" type="submit">Upload</button>
             <button class="btn btn-secondary" type="reset">Clear</button>
         </form>
+
+        <div class="justify-content-center my-3 loading" id="loading" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
         <div class="row mt-3">
             <h2>Content</h2>
         </div>
@@ -45,5 +52,12 @@
     <script src="{% static 'ai_image/js/jquery.js' %}"></script>
     <script src="{% static 'ai_image/js/popper.js' %}"></script>
     <script src="{% static 'ai_image/js/bootstrap.js' %}"></script>
+
+    <script>
+        const spinner = document.getElementById("loading")
+        function displaySpinner() {
+            spinner.style.display = 'flex'
+        }
+    </script>
 </body>
 </html>

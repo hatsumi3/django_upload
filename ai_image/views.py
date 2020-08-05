@@ -1,10 +1,13 @@
+import time
+
 from django.shortcuts import redirect, render
 
 from .forms import DocumentForm
 from .models import Document
-# Create your views here.
+
 
 def index(request):
+    obj = None
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
@@ -14,6 +17,8 @@ def index(request):
         form = DocumentForm()
         obj = Document.objects.all()
     
+    time.sleep(3)
+
     return render(request, 'ai_image/model_form_upload.html', {
         'form': form,
         'items': obj,
