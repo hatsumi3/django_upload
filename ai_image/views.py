@@ -7,7 +7,7 @@ from .models import Document
 
 
 def index(request):
-    obj = None
+    obj = Document.objects.all()
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
@@ -15,7 +15,6 @@ def index(request):
             return redirect('ai_image:post')
     else:
         form = DocumentForm()
-        obj = Document.objects.all()
     
     time.sleep(3)
 

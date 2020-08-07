@@ -15,7 +15,7 @@
             <h1>Registration</h1>
         </div>
         <form method="post" enctype="multipart/form-data" onsubmit="displaySpinner()" action="{% url 'ai_image:post'%}">
-            {% csrf_token%}
+            {% csrf_token %}
             <div class="form-group">
                 <label for="description">description</label>
                 {{ form.description }}
