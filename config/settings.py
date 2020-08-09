@@ -25,7 +25,7 @@ SECRET_KEY = 'yw&l2c#%q0uw_fx!c4s6x6$v)#7e^q4^ck@0i10a6o3%3#*9fg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -138,7 +138,7 @@ LOGGING = {
     'loggers': {
         # 自作アプリケーション全般のログを拾うロガー
         'ai_image': {
-            'handlers': ['console'],
+            'handlers': ['console','file'],
             'level': 'DEBUG',
             'propagate': False,
         },

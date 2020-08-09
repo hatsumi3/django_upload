@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    container_name: django-gunicorn
+    # env_file:
+    #   - django.env
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/usr/src/app/
+      - /home/ubuntu/deploy_test/static:/static
+      - /home/ubuntu/deploy_test/media:/media
+      - /home/ubuntu/deploy_test/log/django:/log
+    command:
+      "gunicorn --bind=0.0.0.0:8000 config.wsgi:application"
+      # "gunicorn --workers=2 --bind=0.0.0.0:8000 mysite.wsgi:application"
+    # expose:
+    #   - 8000
+
+  nginx:
+    build: ../nginx
+    container_name: nginx_test
+    volumes:
+      - /home/ubuntu/deploy_test/nginx/templates:/etc/nginx/conf.d
+      - /home/ubuntu/deploy_test/static:/static
+      - /home/ubuntu/deploy_test/media:/media
+      - /home/ubuntu/deploy_test/log/nginx:/log
+    ports:
+      - "80:80"
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+    depends_on: 
+      - app

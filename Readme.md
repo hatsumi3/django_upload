@@ -14,6 +14,15 @@ Set up django's static and media to allow you to check delivery from the web ser
 AWS EC2上のdockerにnginx,gunicorn,djangoのコンテナを立てて、webサーバを構築します。
 djangoのstatic,mediaを用いて、webサーバ(nginx)からの配信を確認できるように設定を行います。
 
+## Task
+
+- Add test file
+- Fix Dockerfile and docker-compose.yml
+  - The following commands are currently being run manualy.
+    - python manage.py collectstatic
+    - python manage.py makemigrations
+    - python manage.py migrate
+
 ## Used Library
 
 - python
