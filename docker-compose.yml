@@ -13,9 +13,11 @@ services:
       - /home/ubuntu/deploy_test/static:/static
       - /home/ubuntu/deploy_test/media:/media
       - /home/ubuntu/deploy_test/log/django:/log
+      # - gunicorn:/var/run/gunicorn
     command:
       "gunicorn --bind=0.0.0.0:8000 config.wsgi:application"
-      # "gunicorn --workers=2 --bind=0.0.0.0:8000 mysite.wsgi:application"
+      # unix domain socket
+      # "gunicorn --bind=unix:/var/run/gunicorn/gunicorn.sock config.wsgi:application"
     # expose:
     #   - 8000
 
@@ -27,6 +29,7 @@ services:
       - /home/ubuntu/deploy_test/static:/static
       - /home/ubuntu/deploy_test/media:/media
       - /home/ubuntu/deploy_test/log/nginx:/log
+      # - gunicorn:/var/run/gunicorn
     ports:
       - "80:80"
     environment:
@@ -34,3 +37,8 @@ services:
       - NGINX_PORT=80
     depends_on: 
       - app
+
+# unix domain socket
+# volumes:
+#   gunicorn:
+#     driver: local
