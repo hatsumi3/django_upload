@@ -133,12 +133,21 @@ LOGGING = {
             'filename': f'/log/app.log',
             'formatter': 'develop',
         },
+        # ローテート出力用ハンドラ
+        'logrotate': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': f'/log/logrotate.log',
+            'when': 'D',
+            'interval': 1, 
+            'formatter': 'develop',
+        },
     },
     # ロガー
     'loggers': {
         # 自作アプリケーション全般のログを拾うロガー
         'ai_image': {
-            'handlers': ['console','file'],
+            'handlers': ['console','file', 'logrotate'],
             'level': 'DEBUG',
             'propagate': False,
         },
