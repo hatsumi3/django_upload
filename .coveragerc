@@ -1,0 +1,9 @@
+[run]
+source=.
+omit= */migrations/*
+      */tests/*
+[report]
+omit= */migrations/*
+      */tests/*
+[html]
+directory = htmlcov
