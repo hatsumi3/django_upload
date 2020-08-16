@@ -30,3 +30,7 @@ djangoのstatic,mediaを用いて、webサーバ(nginx)からの配信を確認�
   - [Pillow](https://pypi.org/project/Pillow/)
 - css,javascript
   - [Bootstrap4.5](https://getbootstrap.jp/)
+
+## referances
+
+- [Djangoアプリについて、pytest-djangoを使ってテストしてみた](https://thinkami.hatenablog.com/entry/2016/04/19/001651)

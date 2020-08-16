@@ -11,16 +11,20 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import environ
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+env = environ.Env()
+env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'yw&l2c#%q0uw_fx!c4s6x6$v)#7e^q4^ck@0i10a6o3%3#*9fg'
+# SECRET_KEY = 'yw&l2c#%q0uw_fx!c4s6x6$v)#7e^q4^ck@0i10a6o3%3#*9fg'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -188,7 +192,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = '/static'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/media'
+MEDIA_ROOT = '/media/'
 
 try:
     from .local_settings import *
