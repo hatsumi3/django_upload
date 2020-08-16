@@ -2,6 +2,8 @@
 source=.
 omit= */migrations/*
       */tests/*
+      config/*
+      manage.py
 [report]
 omit= */migrations/*
       */tests/*

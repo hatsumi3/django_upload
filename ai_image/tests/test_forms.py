@@ -14,6 +14,11 @@ pytestmark = pytest.mark.django_db
 # filefields test
 # https://stackoverflow.com/questions/26298821/django-testing-model-with-imagefield
 
+
+@pytest.fixture(autouse=True)
+def media_storage(settings, tmpdir):
+    settings.MEDIA_ROOT = tmpdir.strpath
+
 class TestDocumentForm:
 
     def test_documentfrom_is_valid(self):
