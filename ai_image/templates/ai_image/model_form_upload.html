@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI image</title>
     {% load static %}
+    {% load ai_image_extras %}
     <link rel="stylesheet" href="{% static 'ai_image/css/bootstrap4.5.css' %}">
     <link rel="icon" type="image/png" href="{% static 'ai_image/image/terada_icon.png'%}">
 
@@ -41,7 +42,7 @@
         <table class="table">
             {% for item in items %}
             <tr>
-                <td>{{item.description}}</td>
+                <td>{{item.description|auto_br:10}}</td>
                 <td><img src="{{ item.photo.url }}"></td>
                 <td>{{item.uploaded_at}}</td>
             </tr>
