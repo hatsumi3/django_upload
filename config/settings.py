@@ -196,5 +196,24 @@ MEDIA_ROOT = '/media/'
 
 try:
     from .local_settings import *
+
+    if DEBUG:
+
+        TEMPLATES[0]['OPTIONS']['debug'] = True
+
+
+        def show_toolbar(request):
+            return True
+
+        INSTALLED_APPS += (
+            'debug_toolbar',
+        )
+        MIDDLEWARE += (
+            'debug_toolbar.middleware.DebugToolbarMiddleware',
+        )
+        DEBUG_TOOLBAR_CONFIG = {
+            'SHOW_TOOLBAR_CALLBACK': show_toolbar,
+        }
+
 except ImportError:
     print("Looks like no local file. You must be on production")

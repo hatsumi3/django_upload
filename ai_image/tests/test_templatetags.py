@@ -3,6 +3,7 @@ from django.test import SimpleTestCase
 from django.template import Context, Template
 from django.template.base import VariableDoesNotExist
 
+from ai_image.templatetags import ai_image_extras
 
 def test_auto_br():
     context = Context({'title': 'my_titlemy_titlemy_titlemy_title'})

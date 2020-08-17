@@ -4,6 +4,9 @@ omit= */migrations/*
       */tests/*
       config/*
       manage.py
+      */htmlcov/*
+plugins =
+    django_coverage_plugin
 [report]
 omit= */migrations/*
       */tests/*
