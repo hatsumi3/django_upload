@@ -3,6 +3,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=django
 
 ### Django ###
+log/
 *.log
 *.pot
 *.pyc
@@ -145,5 +146,10 @@ dmypy.json
 
 # pytype static type analyzer
 .pytype/
+
+# sphinx
+
+docs/
+docs2/
 
 # End of https://www.toptal.com/developers/gitignore/api/django

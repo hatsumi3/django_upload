@@ -6,6 +6,11 @@ import factory
 from ai_image.models import Document
 
 class DocumentFactory(DjangoModelFactory):
+    """Document factory
+
+    Args:
+        DjangoModelFactory ([type]): [description]
+    """
 
     description = Faker('sentence',nb_words=10)
     photo = factory.django.ImageField(color='blue')

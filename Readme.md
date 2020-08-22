@@ -34,3 +34,5 @@ djangoのstatic,mediaを用いて、webサーバ(nginx)からの配信を確認�
 ## referances
 
 - [Djangoアプリについて、pytest-djangoを使ってテストしてみた](https://thinkami.hatenablog.com/entry/2016/04/19/001651)
+- [DjangoのdocstringやらなんやらをSphinxで吐き出してもらう](http://denari01.hatenablog.com/entry/2015/07/31/Django%E3%81%AEdocstring%E3%82%84%E3%82%89%E3%81%AA%E3%82%93%E3%82%84%E3%82%89%E3%82%92Sphinx%E3%81%A7%E5%90%90%E3%81%8D%E5%87%BA%E3%81%97%E3%81%A6%E3%82%82%E3%82%89%E3%81%86)
+- [stackoverflow:sphinx conf.py](https://stackoverflow.com/questions/36228537/django-settings-module-not-defined-when-building-sphinx-documentation)
