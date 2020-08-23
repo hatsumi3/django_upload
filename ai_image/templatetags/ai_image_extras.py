@@ -12,8 +12,8 @@ def auto_br(value, limits) -> SafeString:
     元の文字列の<br>タグが含まれていた場合はその場所でも改行する。
     
     Args:
-        value ([type]): 元の文字列
-        limits ([type]): <br>を挿入する文字数
+        value (str): 元の文字列
+        limits (int): <br>を挿入する文字数
 
     Returns:
         [type]: [description]
