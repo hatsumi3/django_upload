@@ -6,20 +6,23 @@ services:
     container_name: django-gunicorn
     # env_file:
     #   - django.env
-    ports:
-      - "8000:8000"
+    # ports:
+    #   - "8000:8000"
     volumes:
-      - .:/usr/src/app/
+      - ./:/usr/src/app/
       - /home/ubuntu/deploy_test/static:/static
       - /home/ubuntu/deploy_test/media:/media
       - /home/ubuntu/deploy_test/log/django:/log
       # - gunicorn:/var/run/gunicorn
     command:
-      "gunicorn --bind=0.0.0.0:8000 config.wsgi:application"
+      # "bash"
+      "gunicorn --bind=0.0.0.0:8000 config.wsgi:application -w 2"
       # unix domain socket
       # "gunicorn --bind=unix:/var/run/gunicorn/gunicorn.sock config.wsgi:application"
-    # expose:
-    #   - 8000
+    expose:
+      - 8000
+    # extra_hosts:
+    #   - "local_dev:172.17.0.1"
 
   nginx:
     build: ../nginx
@@ -29,6 +32,7 @@ services:
       - /home/ubuntu/deploy_test/static:/static
       - /home/ubuntu/deploy_test/media:/media
       - /home/ubuntu/deploy_test/log/nginx:/log
+      - /home/ubuntu/deploy_test/nginx/.htpasswd:/etc/nginx/.htpasswd
       # - gunicorn:/var/run/gunicorn
     ports:
       - "80:80"
