@@ -13,6 +13,7 @@ services:
       - /home/ubuntu/deploy_test/static:/static
       - /home/ubuntu/deploy_test/media:/media
       - /home/ubuntu/deploy_test/log/django:/log
+      - /home/ubuntu/deploy_test/upload:/upload
       # - gunicorn:/var/run/gunicorn
     command:
       # "bash"
