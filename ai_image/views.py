@@ -27,8 +27,8 @@ def index(request):
         if form.is_valid():
             item = form.save(commit=False)
             item.make_bw_image()
-            # item.save()
-            time.sleep(3)
+            item.save()
+            time.sleep(2)
             logger.info('POST process end')
             return redirect('ai_image:post')
     else:

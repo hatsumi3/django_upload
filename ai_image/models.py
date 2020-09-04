@@ -17,6 +17,8 @@ class Document(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def make_bw_image(self):
-        img = Image.open(photo)
+        img = Image.open(self.photo)
         gray_img = img.convert('L')
-        gray_img.save(f'{settings.MEDIA_ROOT}{DOCUMENT.bw_photo.upload_to}{photo}')
+        bw_image_path = f'{settings.MEDIA_ROOT}/{Document.bw_photo.field.upload_to}{self.photo}'
+        gray_img.save(bw_image_path)
+        self.bw_photo = bw_image_path
