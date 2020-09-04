@@ -25,18 +25,15 @@ def index(request):
         logger.info('POST process start')
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            item = form.save(commit=False)
+            item.make_bw_image()
+            # item.save()
             time.sleep(3)
             logger.info('POST process end')
             return redirect('ai_image:post')
     else:
         form = DocumentForm()
     
-    # logger test
-    logger.debug('GET')
-    logger.info('GET')
-    logger.warning('GET')
-    logger.error('GET')
     return render(request, 'ai_image/model_form_upload.html', {
         'form': form,
         'items': obj,

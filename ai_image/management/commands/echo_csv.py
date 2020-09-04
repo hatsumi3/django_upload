@@ -20,20 +20,18 @@ class Command(BaseCommand):
     # help message
     help = 'import csv file and create records.'
 
-    def add_arguments(self, parser: CommandParser) -> None:
-        """ Argument setting.
-
-        Args:
-            parser (CommandParser): Argument settings
-        """
+    def add_arguments(self, parser: CommandParser):
+        """ argumetn csv"""
         parser.add_argument('csv', nargs='+', type=str)
 
-    def handle(self, *args: Any, **options: Any) -> Optional[str]:
+    def handle(self, *args: Any, **options: Any):
         """handle setting. 
 
         Returns:
             Optional[str]: handle setting
         """
+        logger.info('start batch')
+
         with open(options['csv'][0]) as f:
             reader = csv.DictReader(f)
             for i, row in enumerate(reader):
@@ -41,7 +39,5 @@ class Command(BaseCommand):
                     description=row['description'],
                     photo=row['photo']
                 )
-                print(i, document.description)
                 logger.info(f'logging:{i}, {document.description}')
-            print('completed!')
             logger.info('logging:completed')
