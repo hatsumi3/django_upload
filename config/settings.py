@@ -206,6 +206,8 @@ STATIC_ROOT = '/static'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = '/media/'
 
+UPLOAD_ROOT = '/upload/'
+
 try:
     from .local_settings import *
 

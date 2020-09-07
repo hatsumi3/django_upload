@@ -17,39 +17,31 @@ logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
     """ Read csv and import data to database.
-        python manage.py import_csv [csv file path]
+        python manage.py echo_csv [csv file path]
         csv header need to contain 'description' and 'photo' columns.
         description(str): description 
         photo(str): file path 
-     Args:
-        BaseCommand ([type]): BaseCommand
+        sample_number(int): sample_number 
     """
     # help message
-    help = 'import csv file and create records.'
+    help = 'import csv file.Then,create records. and image files'
 
     def add_arguments(self, parser: CommandParser):
-        """ argumetn csv"""
+        """ argument csv"""
         parser.add_argument('csv', nargs='+', type=str)
 
     def handle(self, *args: Any, **options: Any):
-        """handle setting. 
+        """handle setting. """
 
-        Returns:
-            Optional[str]: handle setting
-        """
-
-        logger.info('start batch')
+        logger.info('begin batch')
 
         try:
             csv_data = self.read_csv(options['csv'][0])
-            logger.info('read_csv completed.')
+            logger.info('success: read_csv.')
             self.add_calc_parameters(csv_data)
-            logger.info('add_calc_parameters completed.')
+            logger.info('success: add_calc_parameters.')
             create_objects, update_objects = self.initialize_objects(csv_data)
-            logger.info('initialize_objects completed.')
-
-            print(create_objects)
-            print(update_objects)
+            logger.info('success: initialize_objects.')
             Document.objects.bulk_create(create_objects)
             Document.objects.bulk_update(update_objects,fields=[
                                         'description',
@@ -58,10 +50,13 @@ class Command(BaseCommand):
                                         'sample_number',
                                         'uploaded_at',
                                         ])
-            logger.info('objects_create completed.')
-            copy_tree(f"{settings.BASE_DIR}/docs2/org/",f'{settings.MEDIA_ROOT}/{Document.photo.field.upload_to}')
-            copy_tree(f"{settings.BASE_DIR}/docs2/org_bw/",f'{settings.MEDIA_ROOT}/{Document.bw_photo.field.upload_to}')
-            logger.info('copy images completed.')
+            logger.info('success: objects_create.')
+            copy_tree(f"{settings.UPLOAD_ROOT}/org/",f'{settings.MEDIA_ROOT}/{Document.photo.field.upload_to}')
+            copy_tree(f"{settings.UPLOAD_ROOT}/org_bw/",f'{settings.MEDIA_ROOT}/{Document.bw_photo.field.upload_to}')
+            # win debug
+            # copy_tree(f"{settings.BASE_DIR}/docs2/org/",f'{settings.MEDIA_ROOT}/{Document.photo.field.upload_to}')
+            # copy_tree(f"{settings.BASE_DIR}/docs2/org_bw/",f'{settings.MEDIA_ROOT}/{Document.bw_photo.field.upload_to}')            
+            logger.info('success: copy images.')
 
 
         except Exception as e:
@@ -69,7 +64,7 @@ class Command(BaseCommand):
             logger.info('error:end batch')
             return
 
-        logger.info('success:end batch')
+        logger.info('success: finish batch')
 
 
     def read_csv(self, filepath):
@@ -80,9 +75,7 @@ class Command(BaseCommand):
 
         Raises:
             FileNotFoundError: [description]
-            FileNotFoundError: [description]
             KeyError: [description]
-            ValueError: [description]
             ValueError: [description]
 
         Returns:
@@ -97,7 +90,7 @@ class Command(BaseCommand):
                     document = dict(
                         description=row['description'],
                         # uploadフォルダprefixを付与
-                        photo=f"{settings.BASE_DIR}/docs2/org/{row['photo']}",
+                        photo=f"{settings.UPLOAD_ROOT}/org/{row['photo']}",
                         sample_number= int(row['sample_number'])
                     )
                     self.confirm_dict(row_i, document)
@@ -112,12 +105,13 @@ class Command(BaseCommand):
             raise KeyError(f'csv headerに{e}が含まれていません。')
         except ValueError as e:
             if row_i:
-                raise ValueError(f'{row_i}行目の入力内容を確認ください。{e}')
+                raise ValueError(f'{row_i}行目の入力内容を確認ください。{row}.{e}')
             else:
                 raise ValueError(f'csvファイル形式で読み込めません。{e}')
         return csv_data                
 
     def confirm_dict(self, row_i, document):
+        """各カラムのデータ確認"""
         self.confirm_str_field('description', document['description'], max_length=255)
         self.confirm_str_field('photo', document['photo'])
         self.confirm_int_field('sample_number', document['sample_number'])
@@ -135,10 +129,10 @@ class Command(BaseCommand):
         try:
             int_value = int(value)
         except Exception:
-            raise ValueError(f'{key}:{value}は正数を入力してください。。')
+            raise ValueError(f'{key}:{value}は正数を入力してください。')
 
         if not min_value <= int_value <= max_value:
-            raise ValueError(f'{key}:{value}は{min_value}-{max_value}の範囲で入力してください。。')
+            raise ValueError(f'{key}:{value}は{min_value}-{max_value}の範囲で入力してください。')
 
     def add_calc_parameters(self,csv_data):
         for item in csv_data:
@@ -148,12 +142,14 @@ class Command(BaseCommand):
 
 
     def make_bw_image(self, filepath):
+        """グレースケール画像作成"""
         img = Image.open(filepath)
         gray_img = img.convert('L')
-        gray_img.save(f'{settings.BASE_DIR}/docs2/org_bw/{os.path.basename(img.filename)}')
+        gray_img.save(f'{settings.UPLOAD_ROOT}/org_bw/{os.path.basename(img.filename)}')
 
 
     def initialize_objects(self, csv_data):
+        """登録するオブジェクトをlistとして返す。データベースにキーがあればそのオブジェクトを更新。なければ新規作成する。"""
         create_objects = []
         update_objects =[]
         for item in csv_data:
@@ -169,7 +165,7 @@ class Command(BaseCommand):
                 document = Document(
                     description=item['description'],
                     photo=item['photo'],
-                    sample_number=0,
+                    sample_number=item['sample_number'],
                 )
                 document.bw_photo = f"{Document.bw_photo.field.upload_to}{os.path.basename(item['photo'])}"
                 create_objects.append(document)

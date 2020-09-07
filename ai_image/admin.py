@@ -13,7 +13,7 @@ class DocumentAdmin(admin.ModelAdmin):
     Args:
         admin ([type]): [description]
     """
-    list_display = ('id', 'photo', 'uploaded_at', 'description')
+    list_display = ('id', 'photo', 'sample_number','uploaded_at', 'description')
     readonly_fields = ('uploaded_at',)
     ordering = ('-uploaded_at',)
     search_fields = ('description',)
