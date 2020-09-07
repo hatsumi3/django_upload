@@ -31,6 +31,11 @@ def index(request):
             time.sleep(2)
             logger.info('POST process end')
             return redirect('ai_image:post')
+        for key, value in form.errors.as_data().items():
+            for item in value:
+                logger.warn(f'{key}:{item}')
+        for error in form.non_field_errors():
+            logger.warn(error)
     else:
         form = DocumentForm()
     
