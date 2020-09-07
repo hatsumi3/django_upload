@@ -1,4 +1,6 @@
 from django import forms
+from django.core.exceptions import ValidationError
+
 from .models import Document
 
 class DocumentForm(forms.ModelForm):
@@ -16,6 +18,13 @@ class DocumentForm(forms.ModelForm):
         #     field.widget.attrs["class"] = "form-control"
         self.fields['description'].widget.attrs['class'] = 'form-control'
         self.fields['photo'].widget.attrs['class'] = 'form-control'
+
+
+    def clean_description(self):
+        data = self.cleaned_data['description']
+        # if "test" not in data:
+        #     raise ValidationError("description error")
+        return data
 
     class Meta:
         model = Document

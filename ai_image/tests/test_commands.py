@@ -20,3 +20,13 @@ def test_import_csv():
     documents = Document.objects.all()
     assert documents.count() == 1
 
+def test_echo_csv():
+    out = StringIO()
+    call_command('import_csv', f'{BASE_DIR}\\ai_image\\management\\commands\\test_data.csv' ,stdout=out)
+
+    # print(out.getvalue())
+    # assert 'completed!' == out.getvalue()
+
+    documents = Document.objects.all()
+    assert documents.count() == 1
+
