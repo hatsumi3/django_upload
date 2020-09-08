@@ -157,6 +157,7 @@ LOGGING = {
             'when': 'D',
             'interval': 1, 
             'formatter': 'develop',
+            'backupCount': 2,
         },
     },
     # ロガー
@@ -169,7 +170,7 @@ LOGGING = {
         },
         # Django本体が出すログ全般を拾うロガー
         'django': {
-            'handlers': ['console','file'],
+            'handlers': ['console','file', 'logrotate'],
             'level': 'INFO',
             'propagate': False,
         },
